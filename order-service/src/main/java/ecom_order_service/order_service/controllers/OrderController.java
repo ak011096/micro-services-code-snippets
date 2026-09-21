@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.CompletableFuture;
+
 @RestController
 @RequestMapping("/order")
 public class OrderController {
@@ -17,7 +19,7 @@ public class OrderController {
 
 
     @PostMapping("/{productId}")
-    public String placeOrder(@PathVariable String productId){
+    public CompletableFuture<String> placeOrder(@PathVariable String productId){
         return orderService.placeOrder(productId);
     }
 

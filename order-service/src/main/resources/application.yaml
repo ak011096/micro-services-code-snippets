@@ -5,3 +5,40 @@ spring:
 server:
   port: 8080
 
+
+
+logging:
+  level:
+    ecom_order_service.order_service.feign: DEBUG
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+resilience4j:
+  ratelimiter:
+    instances:
+      orderService:
+        limit-for-period: 2
+        limit-refresh-period: 10s
+        timeout-duration: 0
+
+  circuitbreaker:
+    instances:
+      inventoryService:
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 5
+        minimum-number-of-calls: 3
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 2
+        automatic-transition-from-open-to-half-open-enabled: true
+  timelimiter:
+    instances:
+      inventoryService:
+        timeout-duration: 3s
+        cancel-running-future: true

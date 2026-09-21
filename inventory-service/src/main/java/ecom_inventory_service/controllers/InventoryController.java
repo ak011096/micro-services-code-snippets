@@ -14,7 +14,8 @@ public class InventoryController {
     InventoryRepository inventoryRepository;
 
     @GetMapping("/{productId}")
-    public Inventory checkInventory(@PathVariable String productId){
+    public Inventory checkInventory(@PathVariable String productId) throws InterruptedException {
+        Thread.sleep(2000);
         return  inventoryRepository.findById(productId).get();
     }
 
